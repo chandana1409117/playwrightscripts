@@ -1,0 +1,140 @@
+{
+    
+    "adminUrl": "https://arbmdmmanage-ui.azurewebsites.net/login",
+    "lawyerUrl": "https://arbmdmmanage-ext-ui.azurewebsites.net/login",
+    "admin": {
+        "username": "chandanad",
+        "password": "Test@123"
+    },
+    "lawyer": {
+        "username": "adamspringer",
+        "password": "Test2@23"
+    },
+    "practice": {
+        "practiceId": "PRAC008",
+        "practiceName": "Belief Hospitals",
+        "sisPrefix": "BH",
+        "doctor": "Dr. Jane Smith",
+        "email": "info@testmedical.com",
+        "address1": "123 Medical Drive",
+        "address2": "Suite 100",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001",
+        "tin": "12-3456789",
+        "phone": "5551234567",
+        "fax": "555-123-4568"
+    },
+    "dms": {
+        "hospital": "Avalon Medical Center",
+        "searchValue": "141202",
+        "documentType": "AOB",
+        "fromDate": "08-30-2025",
+        "toDate": "08-30-2025",
+        "status": "ARB",
+        "attorney": "Adam Springer",
+        "caseType": "GO FORWARD AGREEMENT - GEICO NJ",
+        "decision": "Claim is in process",
+        "uploadedFileName": "10032025_10032025-Coversheet-10_24_2025.pdf"
+    },
+    "patient": {
+        "id": "1412021",
+        "practice": "CarePoint Health",
+        "patientIdSuffix": "1412021",
+        "firstName": "John",
+        "lastName": "Thompson",
+        "dob": "01/01/1990",
+        "firstVisit": "01/01/2024",
+        "gender": "Female",
+        "ssn": "123-45-6789",
+        "address": "123 Main street",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001",
+        "phone": "1234567890",
+        "primaryInsurance": {
+            "name": "Geico - NJP",
+            "claimNumber": "1234567890",
+            "policyNumber": "39272537",
+            "adjusterName":"",
+            "relationship":"SELF",
+            "adjusterFax":"",
+            "insurancePhone":"",
+            "insuranceFax":"",
+            "notes":"",
+            "doa": "09/09/2024"
+        },
+        "secondaryInsurance": {
+            "name": "",
+            "claimNumber": "",
+            "policyNumber": "",
+            "adjusterName":"",
+            "relationship":"",
+            "adjusterFax":"",
+            "insurancePhone":"",
+            "insuranceFax":"",
+            "notes":"",
+            "doa": ""
+        }
+    },
+    "editPatient": {
+        "practice": "",
+        "patientIdSuffix": "",
+        "firstName": "",
+        "lastName": "",
+        "dob": "",
+        "gender": "",
+        "ssn": "",
+        "address": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "phone": "",
+        "primaryInsurance": {
+            "name": "",
+            "claimNumber": "",
+            "policyNumber": "",
+            "adjusterName":"",
+            "relationship":"",
+            "adjusterFax":"",
+            "insurancePhone":"",
+            "insuranceFax":"",
+            "notes":"",
+            "doa": ""
+        },
+        "secondaryInsurance": {
+            "name": "",
+            "claimNumber": "",
+            "policyNumber": "",
+            "adjusterName":"",
+            "relationship":"",
+            "adjusterFax":"",
+            "insurancePhone":"",
+            "insuranceFax":"",
+            "notes":"",
+            "doa": ""
+        }
+    },
+    "amounts": {
+        "firmPaymentAmount": "1000",
+        "amountInDispute": "2000",
+        "billedAmount": "3000"
+    },
+    "aaaDetails": {
+        "aaaId": "123",
+        "comments": "Testing auto flow"
+    },
+    "reports": {
+        "hospital": "BLOOM HOSPITALS",
+        "recordType": "New Records",
+        "aaaIndex": "Yes",
+        "searchValue": "145678"
+
+    },
+    "processedAAAID":{
+        "fileaccepted":"Yes",
+        "aaaId": "A123",
+        "comments": "Accepted"
+
+    }
+}

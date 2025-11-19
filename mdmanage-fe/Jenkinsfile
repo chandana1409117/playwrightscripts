@@ -1,0 +1,98 @@
+pipeline {
+    agent any
+    environment {
+        SERVICE_NAME = 'mdmanage-fe'
+        S3_BUCKET = 'mdmdeployments'
+        BUILD_FOLDER = 'dist'
+        ZIP_NAME = "${SERVICE_NAME}.zip"
+        S3_PATH = "${SERVICE_NAME}/${ZIP_NAME}"
+        WINDOWS_USER = 'Administrator'
+        WINDOWS_HOST = '18.223.221.79'
+        SSH_KEY_CREDENTIALS_ID = 'MDM_Windows_SSH'
+        AWS_REGION = 'us-east-2'
+    }
+    stages {
+        stage('Get Available Branches') {
+            steps {
+                script {
+                    def branches = []
+                    withCredentials([usernamePassword(credentialsId: 'mdm_User', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        def branchOutput = sh(
+                            script: "git ls-remote --heads https://\$GIT_USERNAME:\$GIT_PASSWORD@bitbucket.org/unisoftllc1/${SERVICE_NAME}.git | awk '{print \$2}' | sed 's#refs/heads/##' | sort",
+                            returnStdout: true
+                        ).trim()
+
+                        branches = branchOutput.split('\n').collect { it.trim() }.findAll { it }
+                    }
+
+                    if (branches.isEmpty()) {
+                        branches = ['main', 'develop']
+                    }
+
+                    echo "Available branches: ${branches.join(', ')}"
+
+                    def selectedBranch = input(
+                        id: 'BranchSelection',
+                        message: 'Select a branch to build:',
+                        parameters: [
+                            choice(
+                                name: 'FRONTEND_BRANCH',
+                                choices: branches,
+                                description: 'Select the frontend branch to build'
+                            )
+                        ]
+                    )
+
+                    env.SELECTED_BRANCH = selectedBranch
+                }
+            }
+        }
+        stage('Checkout') {
+            steps {
+                git branch: "${env.SELECTED_BRANCH}", credentialsId: 'mdm_User', url: "https://bitbucket.org/unisoftllc1/${SERVICE_NAME}.git"
+            }
+        }
+        stage('Install & Build React App') {
+            steps {
+                sh '''
+                    npm install
+                    npm run build
+                '''
+            }
+        }
+        stage('Archive Build as ZIP') {
+            steps {
+                sh "zip -r ${ZIP_NAME} ${BUILD_FOLDER}"
+            }
+        }
+        stage('Upload to S3') {
+            steps {
+                withAWS(region: "${AWS_REGION}", credentials: 'mdms3new') {
+                    s3Upload(
+                        bucket: "${S3_BUCKET}",
+                        file: "${ZIP_NAME}",
+                        path: "${S3_PATH}"
+                    )
+                }
+            }
+        }
+        stage('Deploy on Windows Server') {
+            steps {
+                sshagent(credentials: ["${SSH_KEY_CREDENTIALS_ID}"]) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${WINDOWS_USER}@${WINDOWS_HOST} \\
+                        "C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe -ExecutionPolicy Bypass -File C:\\\\MDM\\\\scripts\\\\deploy-frontend.ps1 -ServiceName ${SERVICE_NAME} -ZipName ${ZIP_NAME}"
+                    """
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo "${SERVICE_NAME} frontend deployed successfully!"
+        }
+        failure {
+            echo "${SERVICE_NAME} frontend deployment failed. Check logs."
+        }
+    }
+}
