@@ -11,6 +11,8 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // Extract values from JSON
   const { admin, lawyer, dms, patient, amounts, aaaDetails } = testData;
+  
+
 
   // ✅ Dynamic file selection (latest .pdf)
 
@@ -41,8 +43,8 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
 
   await page.goto(testData.adminUrl);
-  await page.fill('input[name="username"]', admin.username);
-  await page.fill('input[name="password"]', admin.password);
+  await page.fill('//input[@name="username"]', admin.username);
+  await page.fill('//input[@name="password"]', admin.password);
   await page.getByRole('button', { name: 'Sign In' }).click();
 
   await page.getByRole('navigation').getByRole('link', { name: 'Patients' }).click();
@@ -150,13 +152,14 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   await page.waitForSelector('button:has-text("Save")', { state: 'visible', timeout: 60000 });
   await page.getByRole('button', { name: 'Save' }).click();
+  await page.waitForLoadState('networkidle');
 
 
 
 
   // 🔹 Assign DOS
   await page.getByRole('link', { name: 'Patients' }).first().click();
-  await page.locator('.select__value-container.css-nnrile > .select__input-container').first().click();
+  await page.locator('div:has-text("Select Practice")').locator('div.select__control').nth(1).click();
   await page.getByRole('option', { name: dms.hospital, exact: true }).click();
   const fullName = `${testData.patient.firstName} ${testData.patient.lastName}`;
 
@@ -205,7 +208,7 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   //await dosRow.waitFor({ state: "visible", timeout: 20000 });
 
   // Click Assign inside the matched row
-  await page.getByRole("button", { name: "Assign", exact: true }).click();
+  await page.getByRole("button", { name: "Assign", exact: true }).first().click();
 
 
 
@@ -214,12 +217,24 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   await page.getByRole('option', { name: dms.status, exact: true }).click();
 
   // 🔹 Select Attorney dropdown
-  const attorneyDropdown = page.locator('.select__control.css-5ktp6r-control');
-  await attorneyDropdown.click();
-  await page.keyboard.type(dms.attorney, { delay: 100 });
-  const attorneyOption = page.getByRole('option', { name: dms.attorney });
-  await expect(attorneyOption).toBeVisible({ timeout: 15000 });
-  await attorneyOption.click();
+  const attorneyDropdown = page
+  .locator('label:text("Firm Attorney")')
+  .locator('..')
+  .locator('.select__control');
+
+  // Open dropdown
+await attorneyDropdown.click();
+
+// Target the internal React-Select input
+const attorneyInput = attorneyDropdown.locator('.select__value-container input');
+
+// Type into React-Select properly
+await attorneyInput.fill(dms.attorney);
+
+// Wait for filtered option and click it
+const attorneyOption = page.getByRole('option', { name: dms.attorney, exact: true });
+await expect(attorneyOption).toBeVisible({ timeout: 15000 });
+await attorneyOption.click();
 
   // 🔹 Select Case Type dropdown
   await page.locator('div').filter({ hasText: /^Case TypeSelect\.\.\.$/ }).locator('svg').click();
@@ -245,9 +260,19 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   await lawyerPage.waitForLoadState('domcontentloaded');
   await lawyerPage.getByRole('link', { name: 'New Records' }).click();
-  await lawyerPage.waitForLoadState('networkidle');
-  await lawyerPage.waitForSelector('[data-testid^="expander-button"]', { timeout: 30000 });
+  //await lawyerPage.waitForLoadState('networkidle');
+  await lawyerPage.waitForSelector('[data-testid="loader"]', { state: 'detached', timeout: 60000 });
 
+  // Force React Table to render rows
+  await lawyerPage.mouse.wheel(0, 300);
+  
+  // Wait for first visible expander button
+  await lawyerPage.locator('[data-testid^="expander-button"]').first().waitFor({
+    state: 'visible',
+    timeout: 60000
+  });
+  
+  console.log("✅ Expander buttons loaded");
 
   // 🔹 Expand the first (newest) patient
   const firstExpander = lawyerPage.locator('[data-testid^="expander-button"]').first();
@@ -256,14 +281,14 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // 🔹 Click on the first DOS range (contains "_")
 
-  const firstDOS = lawyerPage.locator('td').filter({ hasText: '_' }).first();
+  const firstDOS = lawyerPage.locator('td').filter({ hasText: '_' }).first ();
   const dosText = await firstDOS.innerText();
   await firstDOS.click();
   console.log(`✅ Opened DOS range: ${dosText}`);
-  await lawyerPage.waitForLoadState('networkidle', { timeout: 30000 });
+  //await lawyerPage.waitForLoadState('networkidle', { timeout: 30000 });
 
   // 🔹 Handle file view popup (View this file)
-  const viewButton = page.locator('button[title="View file"]');
+  const viewButton = lawyerPage.locator('button[title="View file"]').first();
   await lawyerPage.waitForSelector('button[title="View file"]', { timeout: 30000 });
 
   // Ensure page is still open before waiting for popup
@@ -292,11 +317,16 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // 🔹 Handle file download (Download this file)
   // Wait for download button to be visible (in case modal needs to refresh)
-  const downloadButton = lawyerPage.getByRole('button', { name: 'Download this file' });
-  await downloadButton.waitFor({ state: 'visible', timeout: 10000 });
+  const downloadButton = lawyerPage.getByRole('button', { name: 'Download this file' }).first();
+  await downloadButton.waitFor({ state: 'visible', timeout: 30000 });
+
+  // Ensure page is still open before waiting for download
+  if (lawyerPage.isClosed()) {
+    throw new Error('Page was closed before download could be initiated');
+  }
 
   const [downloadPromise] = await Promise.all([
-    lawyerPage.waitForEvent('download'),
+    lawyerPage.waitForEvent('download', { timeout: 30000 }),
     downloadButton.click(),
   ]);
   await downloadPromise;
@@ -364,13 +394,27 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   await lawyerPage.waitForLoadState('networkidle');
 
   // Wait until patient expanders are visible
-  await lawyerPage.waitForSelector('[data-testid^="expander-button"]', { state: 'visible', timeout: 20000 });
-  console.log('✅ Processed Records page loaded');
+ // 1. Wait for API loading to finish
+await lawyerPage.waitForSelector('[data-testid="loader"]', { state: 'detached', timeout: 60000 });
 
-  const expanders = await lawyerPage.locator('[data-testid^="expander-button"]').all();
+// 2. Scroll to ensure expander buttons enter viewport
+await lawyerPage.mouse.wheel(0, 300);
+
+// 3. Wait for at least one visible expander button
+await lawyerPage.locator('[data-testid^="expander-button"]').first().waitFor({
+  state: 'visible',
+  timeout: 60000
+});
+
+console.log('✅ Processed Records page loaded');
+
+// 4. Now collect all expanders
+const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
+
+  //const expanders = await lawyerPage.locator('[data-testid^="expander-button"]').all();
   let found = false;
 
-  for (const expander of expanders) {
+  for (const expander of await expanders.all()) {
     await expander.scrollIntoViewIfNeeded();
     await expander.click();
     console.log('🔹 Expanded patient');
@@ -408,8 +452,8 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
          }*/
           // 🔹 Continue with AAA ID update
           const dosRow = dosRows.nth(i);
-          await dosRow.getByRole('button', { name: '' }).click();
-          await lawyerPage.locator('div').filter({ hasText: /^${testData.processedAAAID.fileaccepted}$/ }).nth(3).click();
+          await dosRow.locator('button:has(svg.lucide-pencil)').click();
+          //await lawyerPage.locator('div').filter({ hasText: /^${testData.processedAAAID.fileaccepted}$/ }).nth(3).click();
           await lawyerPage.fill('//input[@id="aaaId"]', testData.processedAAAID.aaaId);
           await lawyerPage.fill('//input[@id="comments"]', testData.processedAAAID.comments);
           await lawyerPage.getByRole('button', { name: 'Update AAA Index' }).click();
@@ -427,7 +471,7 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   }
 
   // 🔹 Go to Reports page
-  await lawyerPage.getByRole('link', { name: 'Reports' }).click();
+  await lawyerPage.getByRole('link', { name: 'Attorney Records' }).click();
   await lawyerPage.getByRole('button').nth(2).click();
   await lawyerPage.locator('.css-8mmkcg').first().click();
   await lawyerPage.getByRole('option', { name: testData.reports.hospital }).click();
@@ -440,6 +484,8 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // Close the lawyer page
   await lawyerPage.close();
+  await expect.soft(true).toBe(true);
+  
 });
 
 

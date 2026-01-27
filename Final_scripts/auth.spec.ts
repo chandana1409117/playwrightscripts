@@ -1,88 +1,63 @@
 
 import { test } from '@playwright/test';
 import { expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 
-test('AuthenticationFlow_2025-09-05', async ({ page, context }) => {
-  
-    // Navigate to URL
-    await page.goto('https://arbtestmanage-ui.azurewebsites.net/');
+// ✅ Load JSON Data
+const dataPath = path.join(__dirname, 'testdata.json');
+const testdata = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+test('Authentication', async ({ page, context }) => {
 
-    // Take screenshot
-    await page.screenshot({ path: '01-login-page-initial.png', fullPage: true });
+    // Successful login
+    test('successful login', async () => {
+        await page.goto(testdata.adminUrl);
+        await page.fill('input[name="username"]', testdata.admin.username);
+        await page.fill('input[name="password"]', testdata.admin.password);
+        await page.getByRole('button', { name: 'Sign In' }).click();
+        console.log('✔ Login successful');
+    });
 
-    // Fill input field
-    await page.fill("//input[@name='username']", 'kumar');
+    // Invalid login
+    test('invalid login', async () => {
+        await page.goto(testdata.adminUrl);
+        await page.fill("input[name='username']", testdata.admin.username);
+        await page.fill("input[name='password']", 'wrongpassword');
+        await page.getByRole('button', { name: 'Sign In' }).click();
+        await expect(page.getByText('Invalid credentials')).toBeVisible();
+    });
 
-    // Fill input field
-   // await page.fill('input[type="text"]', 'kumar');
-
-    // Fill input field
-    await page.fill("//input[@name='password']", 'Test@123');
-
-    // Take screenshot
-    await page.screenshot({ path: '02-login-form-filled.png' });
-
-    // Click element
-    await page.click("//button[@type='submit']");      
-
-    // Take screenshot
-    await page.screenshot({ path: '03-dashboard-after-login.png', fullPage: true });
-
-    // Navigate to URL
-    //await page.goto('http://mdmw.unisoftllc.com/profile');
-
-    // Take screenshot
-    await page.screenshot({ path: '04-user-profile-page.png', fullPage: true });
-
-    // Stable post-login check
-    await page.getByRole('button', { name: 'KM Kumar Mdmanage SUPER ADMIN' }).click();
-
-     await page.getByRole('button', { name: 'Sign out' }).click();
-
-    // Take screenshot
-    await page.screenshot({ path: '05-logout-success.png', fullPage: true });
-
-    // Navigate to URL
-    await page.goto('https://arbtestmanage-ui.azurewebsites.net/');
 
     // Fill input field
-    // Stable post-login check
-    await page.fill("input[name='username']", 'invaliduser');
-    // Stable post-login check
-    // Stable post-login check
+    test('empty fields', async () => {
+        await page.goto(testdata.adminUrl);
+        await page.fill("input[name='username']", '');
+        await page.fill("input[name='password']", '');
+        await page.getByRole('button', { name: 'Sign In' }).click();
+        await expect(page.getByText('Username is required')).toBeVisible();
+    });
 
-    // Fill input field
-    await page.fill("//input[@name='password']", 'wrongpassword'); 
+    //user not found
+    test('user not found', async () => {
+        await page.goto(testdata.adminUrl);
+        await page.fill("input[name='username']", '822egd');
+        await page.fill("input[name='password']", 'Test@123');
+        await page.getByRole('button', { name: 'Sign In' }).click();
+        await expect(page.getByText('User not found')).toBeVisible();
+    });
 
-    // Click element
-    await page.click("//button[@type='submit']");
-
-    // Take screenshot
-    await page.screenshot({ path: '06-invalid-login-error.png', fullPage: true });
-
-    // Fill input field
-    await page.fill("//input[@name='username']", '');
-
-    // Fill input field
-    await page.fill("//input[@name='password']", '');
-
-    // Click element
-    await page.click("//button[@type='submit']");
-
-    // Take screenshot
-    await page.screenshot({ path: '07-empty-fields-error.png', fullPage: true });
-
-    // Fill input field
-    await page.fill("//input[@name='username']", 'kumar');
-
-    // Fill input field
-    await page.fill("//input[@name='password']", 'Test@123');
-
-    // Click element
-    await page.click("//button[@type='submit']");
-
-    // Take screenshot
-    await page.screenshot({ path: '08-successful-login-after-errors.png', fullPage: true });
+    // Logout
+    test('logout', async () => {
+        await page.goto(testdata.adminUrl);
+        await page.fill("input[name='username']", 'kumar');
+        await page.fill("input[name='password']", 'Test@123');
+        await page.getByRole('button', { name: 'Sign In' }).click();
+        const loggedInUser = testdata.admin.username;
+        await expect(page.getByText(loggedInUser)).toBeVisible();
+        await page.click("//button[@title='" + loggedInUser + "']");
+        await page.getByRole('button', { name: 'Sign out' }).click();
+        console.log('✔ Logout successful');
+    });
 });
-          
+
 

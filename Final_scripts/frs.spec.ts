@@ -1,12 +1,17 @@
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 
+// ✅ Load JSON Data
+const dataPath = path.join(__dirname, 'testdata.json');
+const testdata = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 // Config
-const BASE_URL = process.env.BASE_URL || 'http://mdmw.unisoftllc.com';
+const BASE_URL = testdata.adminUrl;
 const KNOWN_EMAIL = process.env.KNOWN_EMAIL || 'qa+knownuser@mailinator.com';
 const UNKNOWN_EMAIL = process.env.UNKNOWN_EMAIL || 'qa+unknown@mailinator.com';
-const LOGIN_USER = process.env.TEST_USER_EMAIL || 'kumar';
-const LOGIN_PASS = process.env.TEST_USER_PASSWORD || 'Test@123';
-const PROVIDED_RESET_TOKEN = process.env.RESET_TOKEN; // optional
+const LOGIN_USER = testdata.adminUsername;
+const LOGIN_PASS = testdata.adminPassword;
+const PROVIDED_RESET_TOKEN = testdata.resetToken; // optional
 
 // Test data
 const invalidEmails = [

@@ -38,7 +38,7 @@ test('Lawyer', async ({ page }) => {
 
   // 🔹 Handle file view popup (View this file)
   // Wait for the button to be visible first
-  const viewButton = page.locator('button[title="View file"]');
+  const viewButton = page.locator('button[title="View file"]').first();
   await page.waitForSelector('button[title="View file"]', { timeout: 30000 });
   
   // Ensure page is still open before waiting for popup
@@ -68,7 +68,7 @@ test('Lawyer', async ({ page }) => {
 
   // 🔹 Handle file download (Download this file)
   // Wait for download button to be visible (in case modal needs to refresh)
-  const downloadButton = page.getByRole('button', { name: 'Download this file' });
+  const downloadButton = page.getByRole('button', { name: 'Download this file' }).first();
   await downloadButton.waitFor({ state: 'visible', timeout: 30000 });
 
   // Ensure page is still open before waiting for download
@@ -199,7 +199,7 @@ console.error(`❌ No record found with DOS: ${dosText}`);
 }
 
   // 🔹 Go to Reports page
-  await page.getByRole('link', { name: 'Reports' }).click();
+  await page.getByRole('link', { name: 'Attorney Records' }).click();
   await page.getByRole('button').nth(2).click();
   await page.locator('.css-8mmkcg').first().click();
   await page.getByRole('option', { name: testData.reports.hospital }).click();

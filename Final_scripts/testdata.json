@@ -1,5 +1,4 @@
 {
-    
     "adminUrl": "https://arbmdmmanage-ui.azurewebsites.net/login",
     "lawyerUrl": "https://arbmdmmanage-ext-ui.azurewebsites.net/login",
     "admin": {
@@ -7,15 +6,30 @@
         "password": "Test@123"
     },
     "lawyer": {
-        "username": "adamspringer",
-        "password": "Test2@23"
+        "username": "adam_springer",
+        "password": "Test@123"
+    },
+
+    "users":{
+     "firstName": "John",
+        "lastName": "Williams",
+        "username": "jameswilliams",
+        "email": "james.williams@example.com",
+        "phone": "9876543210",
+        "password": "Test@123",
+        "type": "Internal",
+        "role": "Staff",
+        "location": "Billing-India",
+        "status": "Active",
+        "mfaEnabled": "Enabled",
+        "displayName": ""
     },
     "practice": {
-        "practiceId": "PRAC008",
-        "practiceName": "Belief Hospitals",
-        "sisPrefix": "BH",
+        "practiceId": "IMG",
+        "practiceName": "IMAGE HOSPITALS",
+        "sisPrefix": "IMG",
         "doctor": "Dr. Jane Smith",
-        "email": "info@testmedical.com",
+        "email": "",
         "address1": "123 Medical Drive",
         "address2": "Suite 100",
         "city": "New York",
@@ -26,54 +40,54 @@
         "fax": "555-123-4568"
     },
     "dms": {
-        "hospital": "Avalon Medical Center",
-        "searchValue": "141202",
-        "documentType": "AOB",
-        "fromDate": "08-30-2025",
-        "toDate": "08-30-2025",
+        "hospital": "IMAGE HOSPITALS",
+        "searchValue": "1605",
+        "documentType": "Bills",
+        "fromDate": "10-02-2025",
+        "toDate": "10-02-2025",
         "status": "ARB",
         "attorney": "Adam Springer",
-        "caseType": "GO FORWARD AGREEMENT - GEICO NJ",
-        "decision": "Claim is in process",
+        "caseType": "MAJOR MEDICAL",
+        "decision": "Denied Based on IME",
         "uploadedFileName": "10032025_10032025-Coversheet-10_24_2025.pdf"
     },
     "patient": {
-        "id": "1412021",
-        "practice": "CarePoint Health",
-        "patientIdSuffix": "1412021",
-        "firstName": "John",
-        "lastName": "Thompson",
-        "dob": "01/01/1990",
-        "firstVisit": "01/01/2024",
+        "id": "16078",
+        "practice": "IMAGE HOSPITALS",
+        "patientIdSuffix": "16078",
+        "firstName": "Kreechi",
+        "lastName": "Fenton",
+        "dob": "12/14/2000",
+        "firstVisit": "01/10/2024",
         "gender": "Female",
         "ssn": "123-45-6789",
         "address": "123 Main street",
         "city": "New York",
         "state": "NY",
         "zip": "10001",
-        "phone": "1234567890",
+        "phone": "9879773623",
         "primaryInsurance": {
             "name": "Geico - NJP",
-            "claimNumber": "1234567890",
-            "policyNumber": "39272537",
-            "adjusterName":"",
-            "relationship":"SELF",
-            "adjusterFax":"",
-            "insurancePhone":"",
-            "insuranceFax":"",
-            "notes":"",
-            "doa": "09/09/2024"
+            "claimNumber": "140909879",
+            "policyNumber": "989755764fgg",
+            "adjusterName": "",
+            "relationship": "SELF",
+            "adjusterFax": "",
+            "insurancePhone": "",
+            "insuranceFax": "",
+            "notes": "",
+            "doa": "09/10/2024"
         },
         "secondaryInsurance": {
             "name": "",
             "claimNumber": "",
             "policyNumber": "",
-            "adjusterName":"",
-            "relationship":"",
-            "adjusterFax":"",
-            "insurancePhone":"",
-            "insuranceFax":"",
-            "notes":"",
+            "adjusterName": "",
+            "relationship": "",
+            "adjusterFax": "",
+            "insurancePhone": "",
+            "insuranceFax": "",
+            "notes": "",
             "doa": ""
         }
     },
@@ -94,47 +108,67 @@
             "name": "",
             "claimNumber": "",
             "policyNumber": "",
-            "adjusterName":"",
-            "relationship":"",
-            "adjusterFax":"",
-            "insurancePhone":"",
-            "insuranceFax":"",
-            "notes":"",
+            "adjusterName": "",
+            "relationship": "",
+            "adjusterFax": "",
+            "insurancePhone": "",
+            "insuranceFax": "",
+            "notes": "",
             "doa": ""
         },
         "secondaryInsurance": {
             "name": "",
             "claimNumber": "",
             "policyNumber": "",
-            "adjusterName":"",
-            "relationship":"",
-            "adjusterFax":"",
-            "insurancePhone":"",
-            "insuranceFax":"",
-            "notes":"",
+            "adjusterName": "",
+            "relationship": "",
+            "adjusterFax": "",
+            "insurancePhone": "",
+            "insuranceFax": "",
+            "notes": "",
             "doa": ""
         }
     },
     "amounts": {
-        "firmPaymentAmount": "1000",
+        "firmPaymentAmount": "3000",
         "amountInDispute": "2000",
-        "billedAmount": "3000"
+        "billedAmount": "5000"
     },
     "aaaDetails": {
         "aaaId": "123",
         "comments": "Testing auto flow"
     },
     "reports": {
-        "hospital": "BLOOM HOSPITALS",
+        "hospital": "IMAGE HOSPITALS",
         "recordType": "New Records",
         "aaaIndex": "Yes",
-        "searchValue": "145678"
-
+        "searchValue": "1605"
     },
-    "processedAAAID":{
-        "fileaccepted":"Yes",
+    "processedAAAID": {
+        "fileaccepted": "Yes",
         "aaaId": "A123",
         "comments": "Accepted"
-
+    },
+    "admintabs": {
+        "insurance": {
+            "name": "Unisoft-Insurance",
+            "editedName": "Unisoft-Insurance-Edited"
+        },
+        "documentType": {
+            "documentType": "AOB",
+            "editedDocumentType": "Bills-Edited"
+        },
+        "natureOfDispute": {
+            "natureOfDispute": "Medical Malpractice",
+            "editedNatureOfDispute": "Medical Malpractice-Edited"
+        },
+        "caseType": {
+            "caseType": "Major Medical",
+            "editedCaseType": "Major Medical-Edited"
+        },
+        "statusTypes": {
+            "StatusType": "Status Type",
+            "editedStatusType": "Status Type-Edited"
+        }
     }
 }
