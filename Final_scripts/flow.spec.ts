@@ -469,6 +469,9 @@ const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
   if (!found) {
     console.error(`❌ No record found with DOS: ${dosText}`);
   }
+  await lawyerPage.waitForLoadState('networkidle');
+  await lawyerPage.waitForSelector('div.fixed.inset-0.z-50', { state: 'detached' });
+
 
   // 🔹 Go to Reports page
   await lawyerPage.getByRole('link', { name: 'Attorney Records' }).click();

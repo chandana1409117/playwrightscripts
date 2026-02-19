@@ -41,13 +41,13 @@
     },
     "dms": {
         "hospital": "IMAGE HOSPITALS",
-        "searchValue": "1605",
-        "documentType": "Bills",
-        "fromDate": "10-02-2025",
-        "toDate": "10-02-2025",
+        "searchValue": "16078",
+        "documentType": "AOB",
+        "fromDate": "10-07-2025",
+        "toDate": "10-07-2025",
         "status": "ARB",
         "attorney": "Adam Springer",
-        "caseType": "MAJOR MEDICAL",
+        "caseType": "FLIP",
         "decision": "Denied Based on IME",
         "uploadedFileName": "10032025_10032025-Coversheet-10_24_2025.pdf"
     },
@@ -130,8 +130,8 @@
         }
     },
     "amounts": {
-        "firmPaymentAmount": "3000",
-        "amountInDispute": "2000",
+        "firmPaymentAmount": "2000",
+        "amountInDispute": "3000",
         "billedAmount": "5000"
     },
     "aaaDetails": {
@@ -167,7 +167,7 @@
             "editedCaseType": "Major Medical-Edited"
         },
         "statusTypes": {
-            "StatusType": "Status Type",
+            "StatusType": "ARB",
             "editedStatusType": "Status Type-Edited"
         }
     }
