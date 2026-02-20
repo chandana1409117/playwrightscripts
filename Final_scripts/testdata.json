@@ -3,27 +3,25 @@
     "lawyerUrl": "https://arbmdmmanage-ext-ui.azurewebsites.net/login",
     "admin": {
         "username": "chandanad",
-        "password": "Test@123"
+        "password": "Test@1409"
     },
     "lawyer": {
         "username": "adam_springer",
         "password": "Test@123"
     },
 
-    "users":{
-     "firstName": "John",
-        "lastName": "Williams",
-        "username": "jameswilliams",
-        "email": "james.williams@example.com",
-        "phone": "9876543210",
-        "password": "Test@123",
-        "type": "Internal",
-        "role": "Staff",
-        "location": "Billing-India",
-        "status": "Active",
-        "mfaEnabled": "Enabled",
-        "displayName": ""
-    },
+    "users": [
+        {"firstName": "John", "lastName": "Williams", "username": "jameswilliams", "email": "james.williams@example.com", "phone": "9876543210", "password": "Test@123", "type": "Internal", "role": "Staff", "location": "Billing-India", "status": "Active", "mfaEnabled": "Enabled", "displayName": "James Williams"},
+        {"firstName": "Priya", "lastName": "Sharma", "username": "priya.sharma", "email": "priya.sharma@example.com", "phone": "9123456789", "password": "Test@123", "type": "Internal", "role": "Team Lead", "location": "Billing-India", "status": "Active", "mfaEnabled": "Enabled", "displayName": "Priya Sharma"},
+        {"firstName": "Marcus", "lastName": "Chen", "username": "marcus.chen", "email": "marcus.chen@example.com", "phone": "4155550123", "password": "Test@123", "type": "Internal", "role": "Staff", "location": "Billing-US", "status": "Active", "mfaEnabled": "Disabled", "displayName": "Marcus Chen"},
+        {"firstName": "Elena", "lastName": "Rodriguez", "username": "elena.rodriguez", "email": "elena.rodriguez@example.com", "phone": "3055557890", "password": "Test@123", "type": "External", "role": "Provider", "location": "Billing-US", "status": "Active", "mfaEnabled": "Enabled", "displayName": "Elena Rodriguez"},
+        {"firstName": "David", "lastName": "Okonkwo", "username": "david.okonkwo", "email": "david.okonkwo@example.com", "phone": "4045552345", "password": "Test@123", "type": "Internal", "role": "Staff", "location": "Billing-India", "status": "Active", "mfaEnabled": "Enabled", "displayName": "David Okonkwo"},
+        {"firstName": "Sarah", "lastName": "Mitchell", "username": "sarah.mitchell", "email": "sarah.mitchell@example.com", "phone": "6175554567", "password": "Test@123", "type": "Internal", "role": "Admin", "location": "Billing-US", "status": "Active", "mfaEnabled": "Enabled", "displayName": "Sarah Mitchell"},
+        {"firstName": "Raj", "lastName": "Patel", "username": "raj.patel", "email": "raj.patel@example.com", "phone": "9876123456", "password": "Test@123", "type": "Internal", "role": "Staff", "location": "Billing-India", "status": "Inactive", "mfaEnabled": "Disabled", "displayName": "Raj Patel"},
+        {"firstName": "Jennifer", "lastName": "Foster", "username": "jennifer.foster", "email": "jennifer.foster@example.com", "phone": "2145558901", "password": "Test@123", "type": "External", "role": "Lawyer", "location": "Billing-US", "status": "Active", "mfaEnabled": "Enabled", "displayName": "Jennifer Foster"},
+        {"firstName": "Arun", "lastName": "Kumar", "username": "arun.kumar", "email": "arun.kumar@example.com", "phone": "9876987654", "password": "Test@123", "type": "Internal", "role": "Team Lead", "location": "Billing-India", "status": "Active", "mfaEnabled": "Enabled", "displayName": "Arun Kumar"},
+        {"firstName": "Michelle", "lastName": "Thompson", "username": "michelle.thompson", "email": "michelle.thompson@example.com", "phone": "3125553456", "password": "Test@123", "type": "Internal", "role": "Staff", "location": "Billing-US", "status": "Active", "mfaEnabled": "Disabled", "displayName": "Michelle Thompson"}
+    ],
     "practice": {
         "practiceId": "IMG",
         "practiceName": "IMAGE HOSPITALS",
@@ -41,7 +39,7 @@
     },
     "dms": {
         "hospital": "IMAGE HOSPITALS",
-        "searchValue": "16078",
+        "searchValue": "1409",
         "documentType": "AOB",
         "fromDate": "10-07-2025",
         "toDate": "10-07-2025",
@@ -54,11 +52,11 @@
     "patient": {
         "id": "16078",
         "practice": "IMAGE HOSPITALS",
-        "patientIdSuffix": "16078",
-        "firstName": "Kreechi",
+        "patientIdSuffix": "1409",
+        "firstName": "Abhraham",
         "lastName": "Fenton",
-        "dob": "12/14/2000",
-        "firstVisit": "01/10/2024",
+        "dob": "10/09/2000",
+        "firstVisit": "01/11/2024",
         "gender": "Female",
         "ssn": "123-45-6789",
         "address": "123 Main street",
@@ -68,15 +66,15 @@
         "phone": "9879773623",
         "primaryInsurance": {
             "name": "Geico - NJP",
-            "claimNumber": "140909879",
-            "policyNumber": "989755764fgg",
+            "claimNumber": "14090987945",
+            "policyNumber": "97262363268",
             "adjusterName": "",
             "relationship": "SELF",
             "adjusterFax": "",
             "insurancePhone": "",
             "insuranceFax": "",
             "notes": "",
-            "doa": "09/10/2024"
+            "doa": "01/11/2024"
         },
         "secondaryInsurance": {
             "name": "",

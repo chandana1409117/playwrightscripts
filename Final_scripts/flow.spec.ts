@@ -43,9 +43,10 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
 
   await page.goto(testData.adminUrl);
-  await page.fill('//input[@name="username"]', admin.username);
+  await page.fill('//input[@name="username"]', admin.username); 
   await page.fill('//input[@name="password"]', admin.password);
-  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.locator('//button[@type="submit"]').click();
+  //await expect(page).toHaveURL('https://arbmdmmanage-ui.azurewebsites.net/');
 
   await page.getByRole('navigation').getByRole('link', { name: 'Patients' }).click();
   await page.getByRole('button', { name: 'Create' }).click();
@@ -470,7 +471,7 @@ const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
     console.error(`❌ No record found with DOS: ${dosText}`);
   }
   await lawyerPage.waitForLoadState('networkidle');
-  await lawyerPage.waitForSelector('div.fixed.inset-0.z-50', { state: 'detached' });
+ 
 
 
   // 🔹 Go to Reports page
