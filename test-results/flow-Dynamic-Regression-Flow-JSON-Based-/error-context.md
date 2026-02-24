@@ -1,0 +1,324 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - button "MD Manage" [ref=e8] [cursor=pointer]:
+      - img "MD Manage" [ref=e9]
+    - navigation [ref=e11]:
+      - link "Dashboard" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e17]: Dashboard
+        - img [ref=e18]
+      - link "Users" [ref=e21] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e22]
+        - generic [ref=e34]: Users
+        - img [ref=e35]
+      - link "Practices" [ref=e38] [cursor=pointer]:
+        - /url: /practice
+        - img [ref=e39]
+        - generic [ref=e43]: Practices
+        - img [ref=e44]
+      - link "Patients" [ref=e47] [cursor=pointer]:
+        - /url: /patients-list
+        - img [ref=e48]
+        - generic [ref=e51]: Patients
+        - img [ref=e52]
+      - generic [ref=e55]:
+        - button "Files" [ref=e56] [cursor=pointer]:
+          - generic [ref=e57]:
+            - img [ref=e58]
+            - generic [ref=e60]: Files
+          - img [ref=e61]
+        - generic [ref=e63]:
+          - link "DMS" [ref=e64] [cursor=pointer]:
+            - /url: /dms
+            - img [ref=e65]
+            - generic [ref=e70]: DMS
+            - img [ref=e71]
+          - link "DMS Desktop" [ref=e73] [cursor=pointer]:
+            - /url: /dms-desktop
+            - img [ref=e74]
+            - generic [ref=e78]: DMS Desktop
+            - img [ref=e79]
+          - link "DMS Splitter" [ref=e81] [cursor=pointer]:
+            - /url: /dms-splitter
+            - img [ref=e82]
+            - generic [ref=e87]: DMS Splitter
+            - img [ref=e88]
+          - link "DMS File Structure" [ref=e90] [cursor=pointer]:
+            - /url: /dms-browser
+            - img [ref=e91]
+            - generic [ref=e94]: DMS File Structure
+            - img [ref=e95]
+          - link "DMS Upload" [ref=e97] [cursor=pointer]:
+            - /url: /dms-upload
+            - img [ref=e98]
+            - generic [ref=e100]: DMS Upload
+            - img [ref=e101]
+          - link "File Upload" [ref=e103] [cursor=pointer]:
+            - /url: /file-upload
+            - img [ref=e104]
+            - generic [ref=e107]: File Upload
+            - img [ref=e108]
+      - button "Fax" [ref=e112] [cursor=pointer]:
+        - generic [ref=e113]:
+          - img [ref=e114]
+          - generic [ref=e118]: Fax
+        - img [ref=e119]
+      - link "Letters" [ref=e122] [cursor=pointer]:
+        - /url: /letters
+        - img [ref=e123]
+        - generic [ref=e126]: Letters
+        - img [ref=e127]
+      - link "Reports" [ref=e130] [cursor=pointer]:
+        - /url: /reports
+        - img [ref=e131]
+        - generic [ref=e134]: Reports
+        - img [ref=e135]
+      - button "Admin" [ref=e139] [cursor=pointer]:
+        - generic [ref=e140]:
+          - img [ref=e141]
+          - generic [ref=e144]: Admin
+        - img [ref=e145]
+    - generic [ref=e147]:
+      - heading "Quick Access" [level=3] [ref=e149]
+      - generic [ref=e150]:
+        - link "DMS" [ref=e151] [cursor=pointer]:
+          - /url: /dms
+          - img [ref=e152]
+          - generic [ref=e154]: DMS
+        - link "Patients" [ref=e155] [cursor=pointer]:
+          - /url: /patients-list
+          - img [ref=e156]
+          - generic [ref=e161]: Patients
+  - generic [ref=e162]:
+    - generic [ref=e164]:
+      - generic [ref=e167]:
+        - button [ref=e168] [cursor=pointer]:
+          - img [ref=e169]
+        - heading "Patient Documents" [level=1] [ref=e172]
+      - generic [ref=e173]:
+        - generic [ref=e177]:
+          - log [ref=e179]
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - generic [ref=e182]: Select Practice
+              - combobox [ref=e184]
+            - img [ref=e187] [cursor=pointer]
+        - generic [ref=e191]:
+          - img [ref=e192]
+          - textbox "Please select a practice first..." [disabled] [ref=e196]
+        - button "CD Chandana Duddukuri SUPER ADMIN" [ref=e198] [cursor=pointer]:
+          - generic [ref=e200]: CD
+          - generic [ref=e201]:
+            - paragraph [ref=e202]: Chandana Duddukuri
+            - paragraph [ref=e203]: SUPER ADMIN
+          - img [ref=e205]
+    - main [ref=e208]:
+      - generic [ref=e212]:
+        - button "Edit" [ref=e214] [cursor=pointer]:
+          - img [ref=e215]
+          - text: Edit
+        - generic [ref=e218]:
+          - generic [ref=e219]:
+            - img [ref=e222]
+            - generic [ref=e227]:
+              - generic [ref=e228]:
+                - heading "Maria Santos(IMAGE HOSPITALS)" [level=2] [ref=e229]:
+                  - text: Maria Santos
+                  - generic [ref=e230]: (IMAGE HOSPITALS)
+                - generic [ref=e231]:
+                  - generic [ref=e232]: "ID: IMG2816"
+                  - generic [ref=e233]:
+                    - img [ref=e234]
+                    - text: "3105551234"
+              - generic [ref=e236]:
+                - generic [ref=e237]:
+                  - img [ref=e239]
+                  - generic [ref=e243]:
+                    - generic [ref=e244]: Gender
+                    - generic [ref=e245]: Female
+                - generic [ref=e246]:
+                  - img [ref=e248]
+                  - generic [ref=e250]:
+                    - generic [ref=e251]: First Visit
+                    - generic [ref=e252]: Not Available
+                - generic [ref=e253]:
+                  - img [ref=e255]
+                  - generic [ref=e257]:
+                    - generic [ref=e258]: Date of Birth
+                    - generic [ref=e259]: 05-22-1988
+          - generic [ref=e261]:
+            - generic [ref=e262]:
+              - img [ref=e264]
+              - heading "Insurance Information" [level=3] [ref=e267]
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - generic [ref=e271]:
+                  - img [ref=e272]
+                  - text: Policy Holder
+                - generic [ref=e275]:
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: "Name:"
+                    - generic [ref=e278]: Maria Santos
+                  - generic [ref=e279]:
+                    - generic [ref=e280]: "Address:"
+                    - generic [ref=e281]: 456 Oak Ave
+                  - generic [ref=e282]:
+                    - generic [ref=e283]: "City, State, ZIP:"
+                    - generic [ref=e284]: Los Angeles CA 90001
+                  - generic [ref=e285]:
+                    - generic [ref=e286]: "Phone:"
+                    - generic [ref=e287]:
+                      - img [ref=e288]
+                      - text: "3105551234"
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: "Date of Accident:"
+                    - generic [ref=e292]:
+                      - img [ref=e293]
+                      - text: 02-03-2024
+              - generic [ref=e295]:
+                - generic [ref=e297]:
+                  - img [ref=e298]
+                  - text: Primary Insurance - 1181 ATU NY WELFARE FUND - MM
+                - generic [ref=e301]:
+                  - generic [ref=e302]:
+                    - generic [ref=e303]: "Policy #:"
+                    - generic [ref=e304]:
+                      - img [ref=e305]
+                      - text: "88273451234"
+                  - generic [ref=e307]:
+                    - generic [ref=e308]: "Claim #:"
+                    - generic [ref=e309]:
+                      - img [ref=e310]
+                      - text: SF28167890
+                  - generic [ref=e313]:
+                    - generic [ref=e314]: "Relationship:"
+                    - generic [ref=e315]:
+                      - img [ref=e316]
+                      - text: SELF
+                  - generic [ref=e319]:
+                    - generic [ref=e320]: "Adjuster:"
+                    - img [ref=e322]
+                  - generic [ref=e325]:
+                    - generic [ref=e326]: "Phone:"
+                    - img [ref=e328]
+              - generic [ref=e330]:
+                - generic [ref=e332]:
+                  - img [ref=e333]
+                  - text: Secondary Insurance -
+                - generic [ref=e335]:
+                  - generic [ref=e337]: "Policy #:"
+                  - generic [ref=e339]: "Claim #:"
+                  - generic [ref=e340]:
+                    - generic [ref=e341]: "Relationship:"
+                    - generic [ref=e342]: SELF
+                  - generic [ref=e344]: "Adjuster:"
+                  - generic [ref=e346]: "Phone:"
+                  - generic [ref=e348]: "Fax:"
+        - generic [ref=e349]:
+          - generic [ref=e351]:
+            - button "Browse" [ref=e352] [cursor=pointer]:
+              - img [ref=e353]
+              - text: Browse
+            - button "E-Files" [ref=e355] [cursor=pointer]:
+              - img [ref=e356]
+              - text: E-Files
+            - button "Assign Multiple DOS" [disabled] [ref=e360]:
+              - img [ref=e361]
+              - text: Assign Multiple DOS
+            - button "Assign AAA ID" [disabled] [ref=e362]:
+              - img [ref=e363]
+              - text: Assign AAA ID
+          - table [ref=e367] [cursor=pointer]:
+            - rowgroup [ref=e368]:
+              - row "select-all-rows DOS Range Attorney Status Processed By Attorney Status Date Firm Payment Date Firm Payment Amount Amount in dispute Sent Date case type Arb Notes Nature of Dispute Billed Amount Action" [ref=e369]:
+                - checkbox "select-all-rows" [ref=e371]
+                - columnheader "DOS Range" [ref=e373]:
+                  - generic [ref=e374]: DOS Range
+                - columnheader "Attorney" [ref=e376]:
+                  - generic [ref=e377]: Attorney
+                - columnheader "Status" [ref=e379]:
+                  - generic [ref=e380]: Status
+                - columnheader "Processed By Attorney" [ref=e382]:
+                  - generic [ref=e383]: Processed By Attorney
+                - columnheader "Status Date" [ref=e385]:
+                  - generic [ref=e386]: Status Date
+                - columnheader "Firm Payment Date" [ref=e388]:
+                  - generic [ref=e389]: Firm Payment Date
+                - columnheader "Firm Payment Amount" [ref=e391]:
+                  - generic [ref=e392]: Firm Payment Amount
+                - columnheader "Amount in dispute" [ref=e394]:
+                  - generic [ref=e395]: Amount in dispute
+                - columnheader "Sent Date" [ref=e397]:
+                  - generic [ref=e398]: Sent Date
+                - columnheader "case type" [ref=e400]:
+                  - generic [ref=e401]: case type
+                - columnheader "Arb Notes" [ref=e403]:
+                  - generic [ref=e404]: Arb Notes
+                - columnheader "Nature of Dispute" [ref=e406]:
+                  - generic [ref=e407]: Nature of Dispute
+                - columnheader "Billed Amount" [ref=e409]:
+                  - generic [ref=e410]: Billed Amount
+                - columnheader "Action" [ref=e412]:
+                  - generic [ref=e413]: Action
+            - rowgroup [ref=e414]:
+              - row "select-row-undefined 09022025_09022025 Assign Download All" [ref=e415]:
+                - checkbox "select-row-undefined" [ref=e417]
+                - cell "09022025_09022025" [ref=e418]:
+                  - generic [ref=e419]: 09022025_09022025
+                - cell [ref=e420]
+                - cell [ref=e421]
+                - cell [ref=e422]
+                - cell [ref=e423]
+                - cell [ref=e424]
+                - cell [ref=e425]
+                - cell [ref=e426]
+                - cell [ref=e427]
+                - cell [ref=e428]
+                - cell [ref=e429]
+                - cell [ref=e430]
+                - cell [ref=e431]
+                - cell "Assign Download All" [ref=e432]:
+                  - generic [ref=e433]:
+                    - button "Assign" [ref=e434]:
+                      - img [ref=e435]
+                      - text: Assign
+                    - button "Download All" [ref=e438]
+              - row "select-row-undefined 10012025_10012025 Adam Springer ARB Yet to be processed 02/24/2026 09/30/2025 $2000.00 $3000.00 09/30/2025 MAJOR MEDICAL Denied Based on IME $5000.00 Update Download All" [ref=e439]:
+                - checkbox "select-row-undefined" [ref=e441]
+                - cell "10012025_10012025" [ref=e442]:
+                  - generic [ref=e443]: 10012025_10012025
+                - cell "Adam Springer" [ref=e444]:
+                  - generic "Adam Springer" [ref=e445]
+                - cell "ARB" [ref=e446]:
+                  - generic "ARB" [ref=e447]
+                - cell "Yet to be processed" [ref=e448]:
+                  - generic [ref=e449]: Yet to be processed
+                - cell "02/24/2026" [ref=e450]:
+                  - generic [ref=e451]: 02/24/2026
+                - cell "09/30/2025" [ref=e452]:
+                  - generic [ref=e453]: 09/30/2025
+                - cell "$2000.00" [ref=e454]:
+                  - generic [ref=e455]: $2000.00
+                - cell "$3000.00" [ref=e456]:
+                  - generic [ref=e457]: $3000.00
+                - cell "09/30/2025" [ref=e458]:
+                  - generic [ref=e459]: 09/30/2025
+                - cell "MAJOR MEDICAL" [ref=e460]:
+                  - generic "ARB" [ref=e461]: MAJOR MEDICAL
+                - cell [ref=e462]
+                - cell "Denied Based on IME" [ref=e463]:
+                  - generic "Denied Based on IME" [ref=e464]
+                - cell "$5000.00" [ref=e465]:
+                  - generic [ref=e466]: $5000.00
+                - cell "Update Download All" [ref=e467]:
+                  - generic [ref=e468]:
+                    - button "Update" [ref=e469]:
+                      - img [ref=e470]
+                      - text: Update
+                    - button "Download All" [ref=e474]
+```
