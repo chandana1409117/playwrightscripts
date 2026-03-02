@@ -88,18 +88,13 @@ test('Lawyer', async ({ page }) => {
   await page.waitForLoadState('domcontentloaded');
   console.log('✅ Returned to New Records page');
 
-  // 🔹 Find record row using DOS text dynamically
-  const targetRow = page.locator(`tr:has-text("${dosText}"):not(:has-text("Billing"))`).first();
+ 
 
-  // Wait until the row is visible
-  await targetRow.waitFor({ state: 'visible', timeout: 10000 });
-
-  // Scroll into view
-  await targetRow.scrollIntoViewIfNeeded();
+  //await page.locator('//div[@id="row-0"]//button[@aria-label="Expand Row"]//*[name()="svg"]').first().click();
   // 🔹 Wait and click correct Start Processing button in that row
-  const rejectButton = targetRow.locator('//button[@title="Reject Record"]');
-  await rejectButton.waitFor({ state: 'visible', timeout: 10000 });
-  await rejectButton.click();
+  const rejectButton = page.locator('//button[@title="Reject Record"]');
+  //await rejectButton.waitFor({ state: 'visible', timeout: 10000 });
+  await rejectButton.first().click();
   console.log('✅ Clicked Reject Record button');
   await page.getByRole('textbox', { name: 'Comments *' }).click();
   await page.getByRole('textbox', { name: 'Comments *' }).fill('Rejected');
@@ -108,9 +103,10 @@ test('Lawyer', async ({ page }) => {
   await rejectButton2.waitFor({ state: 'visible', timeout: 10000 });
   await rejectButton2.click();
   console.log('✅ Clicked Reject button');*/
-  const requestMoreInformationButton = targetRow.locator('//button[@title="Request More Information"]');
-  await requestMoreInformationButton.waitFor({ state: 'visible', timeout: 10000 });
-  await requestMoreInformationButton.click();
+  await page.locator('//div[@id="row-0"]//button[@aria-label="Expand Row"]//*[name()="svg"]').first().click();
+  const requestMoreInformationButton = page.locator('//button[@title="Request More Information"]');
+  //await requestMoreInformationButton.waitFor({ state: 'visible', timeout: 10000 });
+  await requestMoreInformationButton.first().click();
   console.log('✅ Clicked Request More Information button');
   await page.getByRole('textbox', { name: 'Comments *' }).click();
   await page.getByRole('textbox', { name: 'Comments *' }).fill('Additional info');
@@ -118,9 +114,10 @@ test('Lawyer', async ({ page }) => {
   console.log('✅ Clicked Submit button');
   console.log('✅ Record rejected successfully');
 
-  const startButton = targetRow.locator('//button[@title="Start Processing Record"]');
-  await startButton.waitFor({ state: 'visible', timeout: 10000 });
-  await startButton.click();
+  await page.locator('//div[@id="row-0"]//button[@aria-label="Expand Row"]//*[name()="svg"]').first().click();
+  const startButton = page.locator('//button[@title="Start Processing Record"]');
+  //await startButton.waitFor({ state: 'visible', timeout: 10000 });
+  await startButton.first().click();
   console.log('✅ Clicked Start Processing button');
 
   // 🔹 Fill AAA ID and comments (from JSON or inline)

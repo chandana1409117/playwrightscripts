@@ -7,11 +7,24 @@ import os from 'os';
 const dataPath = path.join(__dirname, 'testData.json');
 const testData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
+function getRandompatient() {
+  const randomIndex = Math.floor(Math.random() * testData.patient.length);
+  return testData.patient[randomIndex];
+}
+function getRandomdms() {
+  const randomIndex = Math.floor(Math.random() * testData.dms.length);
+  return testData.dms[randomIndex];
+}
+
 test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
+  test.setTimeout(90000); // Long flow; allow 60s+ waits to complete
 
   // Extract values from JSON
   const { admin, lawyer, dms, patient, amounts, aaaDetails } = testData;
-  
+  const randompatient = getRandompatient();
+  const randomdms = getRandomdms();
+
+
 
 
   // ✅ Dynamic file selection (latest .pdf)
@@ -43,7 +56,7 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
 
   await page.goto(testData.adminUrl);
-  await page.fill('//input[@name="username"]', admin.username); 
+  await page.fill('//input[@name="username"]', admin.username);
   await page.fill('//input[@name="password"]', admin.password);
   await page.locator('//button[@type="submit"]').click();
   //await expect(page).toHaveURL('https://arbmdmmanage-ui.azurewebsites.net/');
@@ -53,48 +66,47 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // Select Practice
   await page.locator('.select__control.css-17smmwb-control').first().click();
-  await page.getByRole('option', { name: testData.patient.practice }).click();
+  await page.getByRole('option', { name: randompatient.practice }).click();
 
   // Patient Basic Details
-  await page.fill('input[name="patientIdSuffix"]', testData.patient.patientIdSuffix);
-  await page.fill('input[name="firstName"]', testData.patient.firstName);
-  await page.fill('input[name="lastName"]', testData.patient.lastName);
-  await page.getByRole('textbox', { name: 'MM/DD/YYYY' }).first().fill(testData.patient.dob);
-  await page.getByRole('radio', { name: testData.patient.gender }).check();
-  await page.fill('input[name="ssn"]', testData.patient.ssn);
-  await page.fill('input[name="address"]', testData.patient.address);
-  await page.fill('input[name="city"]', testData.patient.city);
-  await page.fill('input[name="state"]', testData.patient.state);
-  await page.fill('input[name="zip"]', testData.patient.zip);
-  await page.fill('input[name="phone"]', testData.patient.phone);
+  await page.fill('input[name="patientIdSuffix"]', randompatient.patientIdSuffix);
+  await page.fill('input[name="firstName"]', randompatient.firstName);
+  await page.fill('input[name="lastName"]', randompatient.lastName);
+  await page.getByRole('textbox', { name: 'MM/DD/YYYY' }).first().fill(randompatient.dob);
+  if (randompatient.gender !== 'Male') {
+    await page.getByRole('radio', { name: randompatient.gender }).check();
+  }
+  await page.fill('input[name="ssn"]', randompatient.ssn);
+  await page.fill('input[name="address"]', randompatient.address);
+  await page.fill('input[name="city"]', randompatient.city);
+  await page.fill('input[name="state"]', randompatient.state);
+  await page.fill('input[name="zip"]', randompatient.zip);
+  await page.fill('input[name="phone"]', randompatient.phone);
 
   // Primary Insurance
   await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(5).click();
-  await page.getByRole('option', { name: testData.patient.primaryInsurance.name }).click();
+  await page.getByRole('option', { name: randompatient.primaryInsurance.name }).first().click();
 
-  await page.fill('input[name="primaryInsurance.claimNumber"]', testData.patient.primaryInsurance.claimNumber);
-  await page.fill('input[name="primaryInsurance.policyNumber"]', testData.patient.primaryInsurance.policyNumber);
-  await page.getByRole('textbox', { name: 'MM/DD/YYYY' }).nth(2).fill(testData.patient.primaryInsurance.doa);
-  await page.fill('input[name="primaryInsurance.adjusterName"]', testData.patient.primaryInsurance.adjusterName);
-  await page.fill('input[name="primaryInsurance.relationship"]', testData.patient.primaryInsurance.relationship);
-  await page.fill('input[name="primaryInsurance.adjusterFax"]', testData.patient.primaryInsurance.adjusterFax);
-  await page.fill('input[name="primaryInsurance.insurancePhone"]', testData.patient.primaryInsurance.insurancePhone);
-  await page.fill('input[name="primaryInsurance.insuranceFax"]', testData.patient.primaryInsurance.insuranceFax);
-  await page.fill('textarea[name="primaryInsurance.notes"]', testData.patient.primaryInsurance.notes);
+  await page.fill('input[name="primaryInsurance.claimNumber"]', randompatient.primaryInsurance.claimNumber);
+  await page.fill('input[name="primaryInsurance.policyNumber"]', randompatient.primaryInsurance.policyNumber);
+  await page.getByRole('textbox', { name: 'MM/DD/YYYY' }).nth(2).fill(randompatient.primaryInsurance.doa);
+  await page.fill('input[name="primaryInsurance.adjusterName"]', randompatient.primaryInsurance.adjusterName);
+  await page.fill('input[name="primaryInsurance.relationship"]', randompatient.primaryInsurance.relationship);
+  await page.fill('input[name="primaryInsurance.adjusterFax"]', randompatient.primaryInsurance.adjusterFax);
+  await page.fill('input[name="primaryInsurance.insurancePhone"]', randompatient.primaryInsurance.insurancePhone);
+  await page.fill('input[name="primaryInsurance.insuranceFax"]', randompatient.primaryInsurance.insuranceFax);
+  await page.fill('textarea[name="primaryInsurance.notes"]', randompatient.primaryInsurance.notes);
 
   // If you have secondary insurance, handle conditionally
-  if (testData.patient.secondaryInsurance.name) {
+  if (randompatient.secondaryInsurance.name) {
     await page.locator('.select__control.css-1u8xnt5-control').click();
-    await page.getByRole('option', { name: testData.patient.secondaryInsurance.name }).click();
-    await page.fill('input[name="secondaryInsurance.claimNumber"]', testData.patient.secondaryInsurance.claimNumber);
-    await page.fill('input[name="secondaryInsurance.policyNumber"]', testData.patient.secondaryInsurance.policyNumber);
-    await page.getByRole('textbox', { name: 'MM/DD/YYYY' }).nth(2).fill(testData.patient.secondaryInsurance.doa);
-    await page.fill('input[name="secondaryInsurance.adjusterName"]', testData.patient.secondaryInsurance.adjusterName);
-    await page.fill('input[name="secondaryInsurance.relationship"]', testData.patient.secondaryInsurance.relationship);
-    await page.fill('input[name="secondaryInsurance.adjusterFax"]', testData.patient.secondaryInsurance.adjusterFax);
-    await page.fill('input[name="secondaryInsurance.insurancePhone"]', testData.patient.secondaryInsurance.insurancePhone);
-    await page.fill('input[name="secondaryInsurance.insuranceFax"]', testData.patient.secondaryInsurance.insuranceFax);
-    await page.fill('textarea[name="secondaryInsurance.notes"]', testData.patient.secondaryInsurance.notes);
+    await page.getByRole('option', { name: randompatient.secondaryInsurance.name }).click();
+    await page.fill('input[name="secondaryInsurance.claimNumber"]', randompatient.secondaryInsurance.claimNumber);
+    await page.fill('input[name="secondaryInsurance.policyNumber"]', randompatient.secondaryInsurance.policyNumber);
+    await page.fill('input[name="secondaryInsurance.relationship"]', randompatient.secondaryInsurance.relationship);
+  await page.fill('input[name="secondaryInsurance.insurancePhone"]', randompatient.secondaryInsurance.insurancePhone);
+    await page.fill('input[name="secondaryInsurance.insuranceFax"]', randompatient.secondaryInsurance.insuranceFax);
+    await page.fill('textarea[name="secondaryInsurance.notes"]', randompatient.secondaryInsurance.notes);
   }
   // Save
   await page.getByRole('button', { name: 'Save' }).click();
@@ -118,16 +130,16 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   await page.locator("//div[@class='select__control css-1ku8i4k-control']//div[@class='select__input-container css-19bb58m']").click();
 
   // 🔹 Select the practice dynamically (from JSON)
-  await page.getByRole('option', { name: dms.hospital, exact: true }).click();
+  await page.getByRole('option', { name: randomdms.hospital, exact: true }).click();
 
-  await page.getByRole('textbox', { name: 'Enter search value...' }).fill(dms.searchValue);
+  await page.getByRole('textbox', { name: 'Enter search value...' }).fill(randompatient.patientIdSuffix);
   await page.getByRole('button', { name: 'Search' }).click();
   await page.locator('div').filter({ hasText: /^Select document type\.\.\.$/ }).first().click();
-  await page.getByRole('option', { name: dms.documentType }).click();
+  await page.getByRole('option', { name: randomdms.documentType }).click();
 
   // Fill dates
-  await page.locator('input[name="fromDate"]').fill(dms.fromDate);
-  await page.locator('input[name="toDate"]').fill(dms.toDate);
+  await page.locator('input[name="fromDate"]').fill(randomdms.fromDate);
+  await page.locator('input[name="toDate"]').fill(randomdms.toDate);
 
 
   // Upload section - no file picker pop-up
@@ -161,13 +173,13 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
   // 🔹 Assign DOS
   await page.getByRole('link', { name: 'Patients' }).first().click();
   await page.locator('div:has-text("Select Practice")').locator('div.select__control').nth(1).click();
-  await page.getByRole('option', { name: dms.hospital, exact: true }).click();
-  const fullName = `${testData.patient.firstName} ${testData.patient.lastName}`;
+  await page.getByRole('option', { name: randomdms.hospital, exact: true }).click();
+  const fullName = `${randompatient.firstName} ${randompatient.lastName}`;
 
   await page.getByPlaceholder('patient name').fill(fullName);
   await page.getByRole('button', { name: 'Submit' }).click();
-  
-  await page.getByRole('cell', { name: patient.primaryInsurance.claimNumber, exact: true }).click();
+
+  await page.getByRole('cell', { name: randompatient.primaryInsurance.claimNumber, exact: true }).click();
   /*// Wait for table to be present first
   await page.waitForSelector('table, [role="table"]', { timeout: 30000 });
   
@@ -215,39 +227,52 @@ test('Dynamic Regression Flow (JSON Based)', async ({ page, context }) => {
 
   // 🔹 Select Status dropdown
   await page.locator('div').filter({ hasText: /^StatusSelect\.\.\.$/ }).locator('svg').click();
-  await page.getByRole('option', { name: dms.status, exact: true }).click();
+  await page.getByRole('option', { name: testData.assignDOS.status, exact: true }).click();
 
   // 🔹 Select Attorney dropdown
   const attorneyDropdown = page
-  .locator('label:text("Firm Attorney")')
-  .locator('..')
-  .locator('.select__control');
+    .locator('label:text("Firm Attorney")')
+    .locator('..')
+    .locator('.select__control');
 
   // Open dropdown
-await attorneyDropdown.click();
+  await attorneyDropdown.click();
 
-// Target the internal React-Select input
-const attorneyInput = attorneyDropdown.locator('.select__value-container input');
+  // Target the internal React-Select input
+  const attorneyInput = attorneyDropdown.locator('.select__value-container input');
 
-// Type into React-Select properly
-await attorneyInput.fill(dms.attorney);
+  // Type into React-Select properly
+  await attorneyInput.fill(testData.assignDOS.attorney);
 
-// Wait for filtered option and click it
-const attorneyOption = page.getByRole('option', { name: dms.attorney, exact: true });
-await expect(attorneyOption).toBeVisible({ timeout: 15000 });
-await attorneyOption.click();
+  // Wait for filtered option and click it
+  const attorneyOption = page.getByRole('option', { name: testData.assignDOS.attorney, exact: true });
+  await expect(attorneyOption).toBeVisible({ timeout: 15000 });
+  await attorneyOption.click();
 
-  // 🔹 Select Case Type dropdown
-  await page.locator('div').filter({ hasText: /^Case TypeSelect\.\.\.$/ }).locator('svg').click();
-  await page.getByRole('option', { name: dms.caseType, exact: true }).click();
+  // Open Case Type dropdown
+  const caseTypeDropdown = page
+    .locator('label:text("Case Type")')
+    .locator('..')
+    .locator('.select__control');
 
-  await page.fill('input[name="firmPaymentAmount"]', amounts.firmPaymentAmount);
+  await caseTypeDropdown.click();
+
+  // Wait for the listbox to appear
+  const listbox = page.getByRole('listbox');
+  await expect(listbox).toBeVisible();
+
+  // Click option inside listbox
+  await listbox.getByRole('option', {
+    name: testData.assignDOS.caseType, // e.g. "MAJOR MEDICAL"
+  }).click();
+
+  await page.fill('input[name="firmPaymentAmount"]', testData.assignDOS.firmPaymentAmount);
   await page.fill('input[name="firmPaymentDate"]', '09/30/2025');
-  await page.fill('input[name="amountInDispute"]', amounts.amountInDispute);
+  await page.fill('input[name="amountInDispute"]', testData.assignDOS.amountInDispute);
   await page.fill('input[name="sentDate"]', '09/30/2025');
-  await page.fill('input[name="billedAmount"]', amounts.billedAmount);
+  await page.fill('input[name="billedAmount"]', testData.assignDOS.billedAmount);
   await page.locator('div:nth-child(3) > div > div > div > .w-full > .select__control > .select__value-container > .select__input-container').click();
-  await page.getByRole('option', { name: dms.decision, exact: true }).click();
+  await page.getByRole('option', { name: testData.assignDOS.decision, exact: true }).click();
   await page.getByRole('button', { name: 'Assign DOS' }).click();
 
 
@@ -266,13 +291,13 @@ await attorneyOption.click();
 
   // Force React Table to render rows
   await lawyerPage.mouse.wheel(0, 300);
-  
+
   // Wait for first visible expander button
   await lawyerPage.locator('[data-testid^="expander-button"]').first().waitFor({
     state: 'visible',
     timeout: 60000
   });
-  
+
   console.log("✅ Expander buttons loaded");
 
   // 🔹 Expand the first (newest) patient
@@ -282,7 +307,7 @@ await attorneyOption.click();
 
   // 🔹 Click on the first DOS range (contains "_")
 
-  const firstDOS = lawyerPage.locator('td').filter({ hasText: '_' }).first ();
+  const firstDOS = lawyerPage.locator('td').filter({ hasText: '_' }).first();
   const dosText = await firstDOS.innerText();
   await firstDOS.click();
   console.log(`✅ Opened DOS range: ${dosText}`);
@@ -338,20 +363,12 @@ await attorneyOption.click();
   await lawyerPage.waitForLoadState('domcontentloaded');
   console.log('✅ Returned to New Records page');
 
-  // 🔹 Find record row using DOS text dynamically
-  const targetRow = lawyerPage.locator(`tr:has-text("${dosText}"):not(:has-text("Billing"))`).first();
-
-  // Wait until the row is visible
-  await targetRow.waitFor({ state: 'visible', timeout: 10000 });
-
-  // Scroll into view
-  await targetRow.scrollIntoViewIfNeeded();
-
-
+  
+  
   // 🔹 Wait and click correct Start Processing button in that row
-  const rejectButton = targetRow.locator('//button[@title="Reject Record"]');
-  await rejectButton.waitFor({ state: 'visible', timeout: 10000 });
-  await rejectButton.click();
+  const rejectButton = lawyerPage.locator('//button[@title="Reject Record"]');
+  //await rejectButton.waitFor({ state: 'visible', timeout: 10000 });
+  await rejectButton.first().click();
   console.log('✅ Clicked Reject Record button');
   await lawyerPage.getByRole('textbox', { name: 'Comments *' }).click();
   await lawyerPage.getByRole('textbox', { name: 'Comments *' }).fill('Rejected');
@@ -360,9 +377,10 @@ await attorneyOption.click();
   await rejectButton2.waitFor({ state: 'visible', timeout: 10000 });
   await rejectButton2.click();
   console.log('✅ Clicked Reject button');*/
-  const requestMoreInformationButton = targetRow.locator('//button[@title="Request More Information"]');
-  await requestMoreInformationButton.waitFor({ state: 'visible', timeout: 10000 });
-  await requestMoreInformationButton.click();
+  await lawyerPage.locator('//div[@id="row-0"]//button[@aria-label="Expand Row"]//*[name()="svg"]').first().click();
+  const requestMoreInformationButton = lawyerPage.locator('//button[@title="Request More Information"]');
+  //await requestMoreInformationButton.waitFor({ state: 'visible', timeout: 10000 });
+  await requestMoreInformationButton.first().click();
   console.log('✅ Clicked Request More Information button');
   await lawyerPage.getByRole('textbox', { name: 'Comments *' }).click();
   await lawyerPage.getByRole('textbox', { name: 'Comments *' }).fill('Additional info');
@@ -370,9 +388,10 @@ await attorneyOption.click();
   console.log('✅ Clicked Submit button');
   console.log('✅ Record rejected successfully');
 
-  const startButton = targetRow.locator('//button[@title="Start Processing Record"]');
-  await startButton.waitFor({ state: 'visible', timeout: 10000 });
-  await startButton.click();
+  await lawyerPage.locator('//div[@id="row-0"]//button[@aria-label="Expand Row"]//*[name()="svg"]').first().click();
+  const startButton = lawyerPage.locator('//button[@title="Start Processing Record"]');
+  //await startButton.waitFor({ state: 'visible', timeout: 10000 });
+  await startButton.first().click();
   console.log('✅ Clicked Start Processing button');
   await lawyerPage.getByRole('textbox', { name: 'AAA ID *' }).click();
   await lawyerPage.getByRole('textbox', { name: 'AAA ID *' }).fill(testData.aaaDetails.aaaId);
@@ -395,27 +414,13 @@ await attorneyOption.click();
   await lawyerPage.waitForLoadState('networkidle');
 
   // Wait until patient expanders are visible
- // 1. Wait for API loading to finish
-await lawyerPage.waitForSelector('[data-testid="loader"]', { state: 'detached', timeout: 60000 });
+  await lawyerPage.waitForSelector('[data-testid^="expander-button"]', { state: 'visible', timeout: 20000 });
+  console.log('✅ Processed Records page loaded');
 
-// 2. Scroll to ensure expander buttons enter viewport
-await lawyerPage.mouse.wheel(0, 300);
-
-// 3. Wait for at least one visible expander button
-await lawyerPage.locator('[data-testid^="expander-button"]').first().waitFor({
-  state: 'visible',
-  timeout: 60000
-});
-
-console.log('✅ Processed Records page loaded');
-
-// 4. Now collect all expanders
-const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
-
-  //const expanders = await lawyerPage.locator('[data-testid^="expander-button"]').all();
+  const expanders = await lawyerPage.locator('[data-testid^="expander-button"]').all();
   let found = false;
 
-  for (const expander of await expanders.all()) {
+  for (const expander of expanders) {
     await expander.scrollIntoViewIfNeeded();
     await expander.click();
     console.log('🔹 Expanded patient');
@@ -451,27 +456,25 @@ const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
            await page.bringToFront();
            console.log('✅ Closed View File tab and returned to main page');
          }*/
-          // 🔹 Continue with AAA ID update
-          const dosRow = dosRows.nth(i);
-          await dosRow.locator('button:has(svg.lucide-pencil)').click();
-          //await lawyerPage.locator('div').filter({ hasText: /^${testData.processedAAAID.fileaccepted}$/ }).nth(3).click();
-          await lawyerPage.fill('//input[@id="aaaId"]', testData.processedAAAID.aaaId);
-          await lawyerPage.fill('//input[@id="comments"]', testData.processedAAAID.comments);
-          await lawyerPage.getByRole('button', { name: 'Update AAA Index' }).click();
-          console.log('✅ AAA Index updated successfully');
-          found = true;
-          break;
-        }
-      }
-    }
-    if (found) break;
-  }
+  // 🔹 Continue with AAA ID update
+  const dosRow = dosRows.nth(i);
+  await dosRow.getByRole('button', { name: 'AAA ID' }).click();
+  await lawyerPage.locator('div').filter({ hasText: /^Yes$/ }).nth(3).click();
+  await lawyerPage.fill('//input[@id="aaaId"]', testData.processedAAAID.aaaId);
+  await lawyerPage.fill('//input[@id="comments"]', testData.processedAAAID.comments);
+  await lawyerPage.getByRole('button', { name: 'Update AAA Index' }).click();
+  console.log('✅ AAA Index updated successfully');
+  found = true;
+  break; 
+}
+}
+}
+if (found) break;
+}
 
-  if (!found) {
-    console.error(`❌ No record found with DOS: ${dosText}`);
-  }
-  await lawyerPage.waitForLoadState('networkidle');
- 
+if (!found) {
+console.error(`❌ No record found with DOS: ${dosText}`);
+}
 
 
   // 🔹 Go to Reports page
@@ -489,7 +492,7 @@ const expanders = lawyerPage.locator('[data-testid^="expander-button"]');
   // Close the lawyer page
   await lawyerPage.close();
   await expect.soft(true).toBe(true);
-  
+
 });
 
 
